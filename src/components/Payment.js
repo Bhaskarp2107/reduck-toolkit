@@ -1,56 +1,64 @@
-import React from 'react';
-import { useCart } from '../context/CartContext';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import './Payment.css';
 
 const Payment = () => {
-  const { cart, clearCart } = useCart();
-  const navigate = useNavigate();
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handlePayment = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    alert('Payment Successful!');
-    clearCart();
-    navigate('/');
+
+    // Simulate successful payment
+    setIsSubmitted(true);
   };
 
   return (
-  <div className="payment-container">
-  <h2>Payment Page</h2>
+    <div className="payment-container">
+      {!isSubmitted ? (
+        <>
+          <h2>Payment Details</h2>
+          <form className="payment-form" onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Cardholder Name</label>
+              <input type="text" placeholder="John Doe" required />
+            </div>
 
-  {cart.length === 0 ? (
-    <p>Your cart is empty.</p>
-  ) : (
-    <>
-      <div className="cart-items">
-        <h3>Cart Items:</h3>
-        <ul>
-          {cart.map((item) => (
-            <li key={item.id}>
-              {item.name} - Quantity: {item.quantity}
-            </li>
-          ))}
-        </ul>
-      </div>
+            <div className="form-group">
+              <label>Card Number</label>
+              <input type="text" placeholder="1234 5678 9012 3456" maxLength="19" required />
+            </div>
 
-      <form onSubmit={handlePayment} className="payment-form">
-        <input type="text" placeholder="Card Number" required />
-        <input type="text" placeholder="Card Holder Name" required />
-        <input type="text" placeholder="Expiry Date (MM/YY)" required />
-        <input type="text" placeholder="CVV" required />
+            <div className="form-row">
+              <div className="form-group">
+                <label>Expiry Date</label>
+                <input type="text" placeholder="MM/YY" required />
+              </div>
+              <div className="form-group">
+                <label>CVV</label>
+                <input type="password" placeholder="123" maxLength="4" required />
+              </div>
+            </div>
 
-        <div className="payment-buttons">
-          <button type="button" className="back" onClick={() => navigate('/cart')}>
-            Back to Cart
-          </button>
-          <button type="submit" className="pay">
-            Pay Now
-          </button>
+            <div className="form-group">
+              <label>Payment Method</label>
+              <select required>
+                <option value="">Select</option>
+                <option value="credit">Credit Card</option>
+                <option value="debit">Debit Card</option>
+                <option value="upi">UPI</option>
+                <option value="netbanking">Net Banking</option>
+              </select>
+            </div>
+
+            <button type="submit">Pay Now</button>
+          </form>
+        </>
+      ) : (
+        <div className="success-message">
+          <h2>✅ Payment Successful!</h2>
+          <p>Thank you for your purchase.</p>
         </div>
-      </form>
-    </>
-  )}
-</div>
+      )}
+    </div>
   );
 };
 

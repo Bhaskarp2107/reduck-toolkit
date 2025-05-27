@@ -1,6 +1,7 @@
 import React from 'react';
 import { useCart } from '../context/CartContext';
 import './ProductList.css';
+import Cart from './Cart';
 
 const ProductList = () => {
   const { addToCart } = useCart();
@@ -17,24 +18,29 @@ const ProductList = () => {
   ];
 
   return (
-    <div className="product-list">
-      <h2 className="section-title">Our Products</h2>
-      <div className="product-cards">
-        {products.map((product) => (
-          <div key={product.id} className="product-card">
-            <img src={product.img} alt={product.name} className="product-img" />
-            <div className="product-info">
-              <h3 className="product-name">{product.name}</h3>
-              <p className="product-price">${product.price}</p>
-              <button
-                className="add-to-cart-btn"
-                onClick={() => addToCart(product)}
-              >
-                Add to Cart
-              </button>
+    <div className="product-page-container">
+      <div className="product-list">
+        <h2 className="section-title">Our Products</h2>
+        <div className="product-cards">
+          {products.map((product) => (
+            <div key={product.id} className="product-card">
+              <img src={product.img} alt={product.name} className="product-img" />
+              <div className="product-info">
+                <h3 className="product-name">{product.name}</h3>
+                <p className="product-price">${product.price}</p>
+                <button
+                  className="add-to-cart-btn"
+                  onClick={() => addToCart(product)}
+                >
+                  Add to Cart
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+      </div>
+      <div className="product-page-cart">
+        <Cart />
       </div>
     </div>
   );
